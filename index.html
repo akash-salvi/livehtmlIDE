@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Live Html IDE</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js" integrity="sha512-GZ1RIgZaSc8rnco/8CXfRdCpDxRCphenIiZ2ztLy3XQfCbQUSCuk8IudvNHxkRA3oUg6q0qejgN/qqyG1duv5Q==" crossorigin="anonymous"></script>
+
+<style>
+html,body{ 
+	margin:0;
+	padding:0;
+	height:100%;
+	width:100%;
+	overflow:hidden;
+}
+
+#editor{
+	height:100%;
+	width:50%;
+	display:inline-block;
+}
+
+#iframe{
+	height:100%;
+	display:inline-block;
+	width:50%;
+}
+
+#container{
+	height:100%;
+	width:auto;
+	white-space:nowrap;
+	overflow:hidden;
+}
+</style>
+</head>
+
+<body onload='ready()'>
+
+<div id='container'>
+	<div id='editor'>
+	</div>
+	<iframe id='iframe' frameBorder="0">
+	</iframe>
+</div>
+
+<script>
+
+function update()
+{
+	var idoc = document.getElementById('iframe').contentWindow.document;
+
+	idoc.open();
+	idoc.write(editor.getValue());
+	idoc.close();
+}
+
+function setupEditor()
+{
+  window.editor = ace.edit("editor");
+  editor.setTheme("ace/theme/monokai");
+  editor.getSession().setMode("ace/mode/html");
+  editor.setValue(`<!--Enter Html Code -->
+<!DOCTYPE html>
+<html>
+  <head>
+	  
+  </head>
+  <body>
+	  
+  </body>
+</html>`,1); //1 = moves cursor to end
+
+  editor.getSession().on('change', function() {
+    update();
+  });
+
+  editor.focus();
+  
+  
+  editor.setOptions({
+    fontSize: "16pt",
+    showLineNumbers: false,
+    showGutter: false,
+    vScrollBarAlwaysVisible:true,
+    enableBasicAutocompletion: false, enableLiveAutocompletion: false
+  });
+
+  editor.setShowPrintMargin(false);
+  editor.setBehavioursEnabled(false);
+}
+
+function ready(){
+	setupEditor();
+	update();
+}
+</script>
+</body>
+
+</html>
